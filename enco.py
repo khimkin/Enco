@@ -81,12 +81,10 @@ def parse_flats(slug):
                       for tag in soup.select('div._tile')]
 
         for flat_link in flat_links:
-            print(flat_link)
             soup = get_soup(flat_link)
             parts = get_text(soup.select_one('div.product-info-card__title')).split(',')
             area, string = parts[1].strip(), parts[0].strip()
             rooms = 0 if string == 'Студия' else int(string.split('-')[0])
-            print(list(set(soup.select('span.product-feature'))))
             string = get_text(list(dict.fromkeys(soup.select('span.product-feature')))[-1])
             image = BASE_URL + soup.select_one("img[itemprop='image']")['src']
             yield {
@@ -99,7 +97,7 @@ def parse_flats(slug):
                 'buildingDeadline': evaluate_building_deadline(string),
                 'layoutImageUrl': image,
             }
-        print(f'Сomplex \'{slug}\' flats on page {page}/{pages} parsed')
+        print(f'Complex \'{slug}\' flats on page {page}/{pages} parsed')
 
 
 if __name__ == '__main__':
